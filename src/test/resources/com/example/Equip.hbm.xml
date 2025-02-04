@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="Equip" table="Equip">
+        <id name="id" column="id" type="long">
+            <generator class="identity"/>
+        </id>
+        <property name="nom" column="nom" type="string" not-null="true"/>
+
+        <bag name="empleats" table="Empleat_Equip" cascade="all" inverse="true">
+            <key column="equip_id"/>
+            <many-to-many class="Empleat" column="empleat_id"/>
+        </bag>
+    </class>
+</hibernate-mapping>
