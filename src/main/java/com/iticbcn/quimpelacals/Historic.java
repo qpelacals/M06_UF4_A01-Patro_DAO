@@ -1,7 +1,6 @@
 package com.iticbcn.quimpelacals;
 
 import jakarta.persistence.*;
-
 import java.util.Date;
 
 @Entity
@@ -28,4 +27,38 @@ public class Historic {
     private Tasca tasca;
 
     // Getters i Setters
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Date getDataInici() {
+        return dataInici;
+    }
+    public void setDataInici(Date dataInici) {
+        this.dataInici = dataInici;
+    }
+
+    public Date getDataFi() {
+        return dataFi;
+    }
+    public void setDataFi(Date dataFi) {
+        this.dataFi = dataFi;
+    }
+
+    public String getComentaris() {
+        return comentaris;
+    }
+    public void setComentaris(String comentaris) {
+        this.comentaris = comentaris;
+    }
+
+    public Tasca getTasca() {
+        return tasca;
+    }
+    public void setTasca(Tasca tasca) {
+        this.tasca = tasca;
+    }
 }
