@@ -14,6 +14,18 @@
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
 
+        <!-- JDBC connection pool Conexiones concurrentes -->
+        <property name="connection.pool_size">5</property>
+
+        <!-- Una sesion de trabajo por Thread-->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Informa de las operaciones "reales" SQL. Interesante en desarrollo -->
+        <property name="show_sql">true</property>
+
+        <!-- Mantenimiento de la BBDD -->
+        <property name="hbm2ddl.auto">update</property>
+
         <!-- Mapping de les classes amb anotacions -->
         <mapping class="Tasca"/>
         <mapping class="Historic"/>
