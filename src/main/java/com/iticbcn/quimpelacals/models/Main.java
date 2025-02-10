@@ -1,4 +1,4 @@
-package com.iticbcn.quimpelacals;
+package com.iticbcn.quimpelacals.models;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;

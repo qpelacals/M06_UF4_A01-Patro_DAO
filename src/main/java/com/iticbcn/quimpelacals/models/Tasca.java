@@ -1,4 +1,4 @@
-package com.iticbcn.quimpelacals;
+package com.iticbcn.quimpelacals.models;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;

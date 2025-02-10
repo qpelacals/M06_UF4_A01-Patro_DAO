@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!-- Configuració de la connexió a la base de dades -->
-        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/nom_de_la_base_de_dades</property>
-        <property name="hibernate.connection.username">usuari</property>
-        <property name="hibernate.connection.password">contrasenya</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQL8Dialect</property>
-        <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Propiedades de la conexión -->
+
+        <!-- Driver JDBC -->
+        <property name="connection.driver_class">org.mariadb.jdbc.Driver</property>
+
+        <!-- Conexión. Añadir ?createDatabaseIfNotExist=true para crear la BBDD  -->
+        <property name="connection.url">jdbc:mariadb://localhost:3306/empresa</property>
+
+        <!-- Usuario y password de la BBDD -->
+        <property name="connection.username">root</property>
+        <property name="connection.password">system</property>
+
+        <!--  dialecto dentro del conector. Importante para claves ajenas-->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Configuraciones adicionales -->
 
         <!-- JDBC connection pool Conexiones concurrentes -->
         <property name="connection.pool_size">5</property>
@@ -20,18 +26,24 @@
         <!-- Una sesion de trabajo por Thread-->
         <property name="current_session_context_class">thread</property>
 
+
         <!-- Informa de las operaciones "reales" SQL. Interesante en desarrollo -->
         <property name="show_sql">true</property>
 
         <!-- Mantenimiento de la BBDD -->
+
         <property name="hbm2ddl.auto">update</property>
 
-        <!-- Mapping de les classes amb anotacions -->
-        <mapping class="Tasca"/>
-        <mapping class="Historic"/>
-        <mapping class="Empleat"/>
+        <!-- opciones de hbm2dll:
+        create : Borra y crea SIEMPRE la base de datos
+        update : Mantiene los datos, actualizando la estructura de la BBDD.
+        create-drop : Crea todo, y al finalizar el programa lo borra
+        validate: comprueba que las especificaciones del mapeo son validas con el diseño relacional de la BBDD
+        -->
 
-        <!-- Mapping de la classe amb fitxer .hbm.xml -->
-        <mapping resource="Equip.hbm.xml"/>
+        <!-- Ficheros de mapeo. Pueden combinarse-->
+
+        <!-- Mapeo DENTRO DE LA CLASE -->
+
     </session-factory>
 </hibernate-configuration>

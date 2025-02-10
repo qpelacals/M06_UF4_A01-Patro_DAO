@@ -1,4 +1,4 @@
-package com.iticbcn.quimpelacals;
+package com.iticbcn.quimpelacals.models;
 
 import java.util.List;
 
