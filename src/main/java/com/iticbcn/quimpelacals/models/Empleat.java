@@ -108,6 +108,3 @@ public class Empleat {
     }
 }
 
-enum Departament {
-    SALES, MARKETING
-}

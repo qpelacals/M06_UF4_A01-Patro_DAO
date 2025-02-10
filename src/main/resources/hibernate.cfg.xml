@@ -42,6 +42,11 @@
         -->
 
         <!-- Ficheros de mapeo. Pueden combinarse-->
+        <!-- Mapeo de clases -->
+        <mapping class="com.iticbcn.quimpelacals.models.Empleat"/>
+        <mapping resource="Equip.hbm.xml"/>
+        <mapping class="com.iticbcn.quimpelacals.models.Tasca"/>
+        <mapping class="com.iticbcn.quimpelacals.models.Historic"/>
 
         <!-- Mapeo DENTRO DE LA CLASE -->
 
