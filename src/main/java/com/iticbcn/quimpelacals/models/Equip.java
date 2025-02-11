@@ -1,12 +1,14 @@
 package com.iticbcn.quimpelacals.models;
 
-import java.util.List;
+import java.util.Set;
 
 public class Equip {
 
     private Long id;
     private String nom;
-    private List<Empleat> empleats;
+    private Set<Empleat> empleats;
+
+    public Equip() {}
 
     // Getters i Setters
     public Long getId() {
@@ -23,10 +25,12 @@ public class Equip {
         this.nom = nom;
     }
 
-    public List<Empleat> getEmpleats() {
+    public Set<Empleat> getEmpleats() {
         return empleats;
     }
-    public void setEmpleats(List<Empleat> empleats) {
+    public void setEmpleats(Set<Empleat> empleats) {
         this.empleats = empleats;
     }
+
+
 }

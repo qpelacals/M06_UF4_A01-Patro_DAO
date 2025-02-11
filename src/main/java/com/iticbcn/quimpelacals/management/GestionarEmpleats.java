@@ -62,12 +62,7 @@ public class GestionarEmpleats {
 
     private void llistarEmpleats() {
         List<Empleat> empleats = empleatDAO.getAllEmpleats();
-        empleats.forEach(e -> System.out.println(
-                "ID: " + e.getId() +
-                        " | Nom: " + e.getNom() +
-                        " " + e.getCognoms() +
-                        " | DNI: " + e.getDni()
-        ));
+        empleats.forEach(e -> System.out.println(e.toString()));
     }
 
     private void buscarPerId() throws IOException {
@@ -78,12 +73,7 @@ public class GestionarEmpleats {
 
         if(empleat != null) {
             System.out.println("\n--- DADES DE L'EMPLEAT ---");
-            System.out.println("ID: " + empleat.getId());
-            System.out.println("DNI: " + empleat.getDni());
-            System.out.println("Nom complet: " + empleat.getNom() + " " + empleat.getCognoms());
-            System.out.println("Telèfon: " + (empleat.getTel() != null ? empleat.getTel() : "No té"));
-            System.out.println("Sou: " + empleat.getSou() + "€");
-            System.out.println("Departament: " + empleat.getDepartament());
+            System.out.println(empleat.toString());
         } else {
             System.out.println("No s'ha trobat cap empleat amb ID " + id);
         }

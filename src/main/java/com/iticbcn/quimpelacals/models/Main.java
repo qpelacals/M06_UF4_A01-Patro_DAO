@@ -1,5 +1,6 @@
 package com.iticbcn.quimpelacals.models;
 
+import com.iticbcn.quimpelacals.HibernateUtil;
 import com.iticbcn.quimpelacals.dao.*;
 import org.hibernate.SessionFactory;
 import java.io.BufferedReader;

@@ -1,8 +1,7 @@
-package com.iticbcn.quimpelacals.models;
+package com.iticbcn.quimpelacals;
 
 import com.iticbcn.quimpelacals.management.*;
 import com.iticbcn.quimpelacals.dao.*;
-import com.iticbcn.quimpelacals.models.HibernateUtil;
 import org.hibernate.SessionFactory;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -18,10 +17,13 @@ public class Main2 {
         EmpleatDAO empleatDAO = new EmpleatDAO(sessionFactory);
         EquipDAO equipDAO = new EquipDAO(sessionFactory);
         TascaDAO tascaDAO = new TascaDAO(sessionFactory);
+        HistoricDAO historicDAO = new HistoricDAO(sessionFactory);
 
         // Configurar gestors
         GestionarEmpleats gestioEmpleats = new GestionarEmpleats(empleatDAO, br);
         GestionarEquips gestioEquips = new GestionarEquips(equipDAO, empleatDAO, br);
+        GestionarTasques gestioTasques = new GestionarTasques(tascaDAO, br);
+        GestionarHistorics gestioHistorics = new GestionarHistorics(historicDAO, br);
 
         while (!sortir) {
             System.out.println("\n--- MENÚ PRINCIPAL ---");
@@ -38,9 +40,12 @@ public class Main2 {
                 switch (opcio) {
                     case 1: gestioEmpleats.mostrarMenu(); break;
                     case 2: gestioEquips.mostrarMenu(); break;
-                    case 3: sortir = true; break;
+                    case 3: gestioTasques.mostrarMenu(); break;
+                    case 4: gestioHistorics.mostrarMenu(); break;
+                    case 5: sortir = true; break;
                 }
             } catch (Exception e) {
+                e.printStackTrace();
                 System.err.println("Error: " + e.getMessage());
             }
         }

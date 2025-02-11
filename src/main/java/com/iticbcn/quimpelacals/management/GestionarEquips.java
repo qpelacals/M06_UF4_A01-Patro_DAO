@@ -61,7 +61,7 @@ public class GestionarEquips {
                 System.out.println("Membres:");
                 for(Empleat membre : equip.getEmpleats()) {
                     System.out.println("  - " + membre.getNom() + " " + membre.getCognoms() +
-                            " (ID: " + membre.getId() + ")");
+                            " (ID: " + membre.getEmpleat_id() + ")");
                 }
             }
         }

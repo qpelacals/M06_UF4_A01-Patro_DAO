@@ -1,4 +1,4 @@
-package com.iticbcn.quimpelacals.models;
+package com.iticbcn.quimpelacals;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;

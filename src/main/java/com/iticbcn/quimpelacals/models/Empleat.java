@@ -11,7 +11,7 @@ public class Empleat {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long empleat_id;
 
     @Column(name = "DNI", nullable = false)
     private String dni;
@@ -35,21 +35,17 @@ public class Empleat {
     @OneToMany(mappedBy = "empleat", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Tasca> tasques;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "Empleat_Equip",
             joinColumns = @JoinColumn(name = "empleat_id"),
-            inverseJoinColumns = @JoinColumn(name = "equip_id")
+            inverseJoinColumns = @JoinColumn(name = "id")
     )
     private List<Equip> equips;
 
     // Getters i Setters
-    public Long getId() {
-        return id;
-    }
-    public void setId(Long id) {
-        this.id = id;
-    }
+
+    public Empleat() {}
 
     public String getDni() {
         return dni;
@@ -105,6 +101,24 @@ public class Empleat {
     }
     public void setEquips(List<Equip> equips) {
         this.equips = equips;
+    }
+
+    @Override
+    public String toString() {
+        return "ID: " + getEmpleat_id() +
+                "\n DNI: " + getDni() +
+                "\n Nom complet: " + getNom() + " " + getCognoms() +
+                "\n Telèfon: " + (getTel() != null ? getTel() : "No especificat") +
+                "\n Sou: " + getSou() + "€" +
+                "\n Departament: " + getDepartament() + "\n";
+    }
+
+    public Long getEmpleat_id() {
+        return empleat_id;
+    }
+
+    public void setEmpleat_id(Long empleat_id) {
+        this.empleat_id = empleat_id;
     }
 }
 
