@@ -1,6 +1,8 @@
 package com.iticbcn.quimpelacals.management;
 
+import com.iticbcn.quimpelacals.dao.EmpleatDAO;
 import com.iticbcn.quimpelacals.dao.TascaDAO;
+import com.iticbcn.quimpelacals.models.Empleat;
 import com.iticbcn.quimpelacals.models.Tasca;
 
 import java.io.BufferedReader;
@@ -9,10 +11,12 @@ import java.util.List;
 
 public class GestionarTasques {
     private final TascaDAO tascaDAO;
+    private final EmpleatDAO empleatDAO; // Afegir EmpleatDAO
     private final BufferedReader br;
 
-    public GestionarTasques(TascaDAO tascaDAO, BufferedReader br) {
+    public GestionarTasques(TascaDAO tascaDAO, EmpleatDAO empleatDAO, BufferedReader br) {
         this.tascaDAO = tascaDAO;
+        this.empleatDAO = empleatDAO; // Inicialitzar EmpleatDAO
         this.br = br;
     }
 
@@ -51,8 +55,18 @@ public class GestionarTasques {
         System.out.print("Data límit (YYYY-MM-DD): ");
         tasca.setDataLim(java.sql.Date.valueOf(br.readLine()));
 
-        tascaDAO.saveTasca(tasca);
-        System.out.println("Tasca creada amb èxit!");
+        // Obtenir l'ID de l'empleat i assignar-lo a la tasca
+        System.out.print("ID del empleat: ");
+        Long empleatId = Long.parseLong(br.readLine());
+        Empleat empleat = empleatDAO.getEmpleatById(empleatId);
+
+        if (empleat != null) {
+            tasca.setEmpleat(empleat); // Assignar l'objecte Empleat a la tasca
+            tascaDAO.saveTasca(tasca);
+            System.out.println("Tasca creada amb èxit!");
+        } else {
+            System.out.println("Error: No s'ha trobat cap empleat amb ID " + empleatId);
+        }
     }
 
     private void llistarTasques() {

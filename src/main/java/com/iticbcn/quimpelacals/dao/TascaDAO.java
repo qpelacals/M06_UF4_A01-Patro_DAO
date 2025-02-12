@@ -17,7 +17,7 @@ public class TascaDAO {
     public void saveTasca(Tasca tasca) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.persist(tasca);
+            session.merge(tasca);
             session.getTransaction().commit();
         } catch (HibernateException e) {
             System.err.println("Error al guardar tasca: " + e.getMessage());

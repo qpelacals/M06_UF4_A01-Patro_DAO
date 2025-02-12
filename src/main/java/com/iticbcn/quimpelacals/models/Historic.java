@@ -28,6 +28,8 @@ public class Historic implements Serializable{
     @JoinColumn(name = "tasca_id", nullable = false)
     private Tasca tasca;
 
+    public Historic() {}
+
     // Getters i Setters
     public Long getId() {
         return id;

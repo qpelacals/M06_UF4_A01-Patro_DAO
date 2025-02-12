@@ -33,5 +33,4 @@ public class Equip implements Serializable{
         this.empleats = empleats;
     }
 
-
 }

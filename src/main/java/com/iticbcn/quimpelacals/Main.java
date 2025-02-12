@@ -22,7 +22,7 @@ public class Main {
         // Configurar gestors
         GestionarEmpleats gestioEmpleats = new GestionarEmpleats(empleatDAO, br);
         GestionarEquips gestioEquips = new GestionarEquips(equipDAO, empleatDAO, br);
-        GestionarTasques gestioTasques = new GestionarTasques(tascaDAO, br);
+        GestionarTasques gestioTasques = new GestionarTasques(tascaDAO, empleatDAO, br);
         GestionarHistorics gestioHistorics = new GestionarHistorics(historicDAO, br);
 
         while (!sortir) {

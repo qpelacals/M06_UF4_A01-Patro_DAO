@@ -6,6 +6,7 @@ import com.iticbcn.quimpelacals.models.Empleat;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public class GestionarEmpleats {
     private final EmpleatDAO empleatDAO;
@@ -23,6 +24,7 @@ public class GestionarEmpleats {
         System.out.println("3. Buscar empleat per ID");
         System.out.println("4. Actualitzar empleat");
         System.out.println("5. Eliminar empleat");
+        System.out.println("6. Mostrar nombre de tasques per empleat"); // Nova opció
         System.out.print("Escull opció: ");
 
         int opcio = Integer.parseInt(br.readLine());
@@ -33,6 +35,7 @@ public class GestionarEmpleats {
             case 3: buscarPerId(); break;
             case 4: actualitzarEmpleat(); break;
             case 5: eliminarEmpleat(); break;
+            case 6: mostrarTasquesPerEmpleat(); break; // Nova opció
         }
     }
 
@@ -145,5 +148,23 @@ public class GestionarEmpleats {
         } else {
             System.out.println("No s'ha trobat cap empleat amb aquest ID");
         }
+    }
+
+    private void mostrarTasquesPerEmpleat() {
+        Map<String, Long> tasquesPerEmpleat = empleatDAO.countTasksPerEmployee();
+
+        if (tasquesPerEmpleat.isEmpty()) {
+            System.out.println("No hi ha dades disponibles.");
+            return;
+        }
+
+        System.out.println("\n--- NOMBRE DE TASQUES PER EMPLEAT ---");
+        System.out.println("+---------------------+-------------------+");
+        System.out.println("| Empleat             | Nombre de tasques |");
+        System.out.println("+---------------------+-------------------+");
+        for (Map.Entry<String, Long> entry : tasquesPerEmpleat.entrySet()) {
+            System.out.printf("| %-20s| %-18d|\n", entry.getKey(), entry.getValue());
+        }
+        System.out.println("+---------------------+-------------------+");
     }
 }

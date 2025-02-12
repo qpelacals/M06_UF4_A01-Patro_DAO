@@ -35,6 +35,8 @@ public class Tasca implements Serializable{
     @JoinColumn(name="empleat_id",foreignKey = @ForeignKey(name="FK_EMP_TAS"),nullable = false)
     private Empleat empleat;
 
+    public Tasca() {}
+
     // Getters i Setters
     public Long getId() {
         return id;
@@ -76,5 +78,12 @@ public class Tasca implements Serializable{
     }
     public void setHistorics(List<Historic> historics) {
         this.historics = historics;
+    }
+
+    public Empleat getEmpleat() {
+        return empleat;
+    }
+    public void setEmpleat(Empleat empleat) {
+        this.empleat = empleat;
     }
 }
