@@ -1,13 +1,13 @@
 package com.iticbcn.quimpelacals.models;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Table(name = "Empleat", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "DNI")
-})
-public class Empleat {
+@Table
+public class Empleat implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

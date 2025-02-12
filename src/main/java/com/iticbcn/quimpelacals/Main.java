@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-public class Main2 {
+public class Main {
     private static boolean sortir = false;
 
     public static void main(String[] args) {

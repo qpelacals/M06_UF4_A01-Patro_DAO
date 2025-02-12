@@ -8,7 +8,7 @@ import java.util.List;
 
 public class HistoricDAO {
 
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public HistoricDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

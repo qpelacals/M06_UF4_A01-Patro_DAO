@@ -12,7 +12,7 @@
 
         <set name="empleats" table="Empleat_Equip" cascade="all" inverse="true">
             <key column="id"/>
-            <many-to-many class="Empleat" column="empleat_id"/>
+            <many-to-many class="com.iticbcn.quimpelacals.models.Empleat" column="empleat_id"/>
         </set>
     </class>
 </hibernate-mapping>

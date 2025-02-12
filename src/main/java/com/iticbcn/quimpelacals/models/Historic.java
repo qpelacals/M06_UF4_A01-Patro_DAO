@@ -1,11 +1,13 @@
 package com.iticbcn.quimpelacals.models;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-@Table(name = "Historic")
-public class Historic {
+@Table
+public class Historic implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

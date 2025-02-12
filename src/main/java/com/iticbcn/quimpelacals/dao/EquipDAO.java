@@ -8,7 +8,7 @@ import java.util.List;
 
 public class EquipDAO {
 
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public EquipDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

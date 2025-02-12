@@ -13,7 +13,7 @@
 
         <!-- Usuario y password de la BBDD -->
         <property name="connection.username">root</property>
-        <property name="connection.password">system</property>
+        <property name="connection.password">1234</property>
 
         <!--  dialecto dentro del conector. Importante para claves ajenas-->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -33,11 +33,11 @@
         <!-- Mantenimiento de la BBDD -->
 
         <property name="hbm2ddl.auto">update</property>
+        
+        <mapping resource="Equip.hbm.xml"/>
+
         <mapping class="com.iticbcn.quimpelacals.models.Empleat"/>
         <mapping class="com.iticbcn.quimpelacals.models.Tasca"/>
         <mapping class="com.iticbcn.quimpelacals.models.Historic"/>
-
-        <mapping resource="Equip.hbm.xml"/>
-
     </session-factory>
 </hibernate-configuration>

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TascaDAO {
 
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     public TascaDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;

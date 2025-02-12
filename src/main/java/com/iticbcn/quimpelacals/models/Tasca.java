@@ -1,15 +1,15 @@
 package com.iticbcn.quimpelacals.models;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "Tasca", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "nom")
-})
-public class Tasca {
+@Table
+public class Tasca implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,10 @@ public class Tasca {
 
     @OneToMany(mappedBy = "tasca", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Historic> historics = new ArrayList<>();
+
+    @ManyToOne(cascade=CascadeType.PERSIST)
+    @JoinColumn(name="empleat_id",foreignKey = @ForeignKey(name="FK_EMP_TAS"),nullable = false)
+    private Empleat empleat;
 
     // Getters i Setters
     public Long getId() {

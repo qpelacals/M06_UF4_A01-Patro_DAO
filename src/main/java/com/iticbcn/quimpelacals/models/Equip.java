@@ -1,8 +1,9 @@
 package com.iticbcn.quimpelacals.models;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Equip {
+public class Equip implements Serializable{
 
     private Long id;
     private String nom;
