@@ -19,7 +19,7 @@ public class GestionarEquips {
         this.br = br;
     }
 
-    public void mostrarMenu() throws IOException {
+    public void mostrarMenu() throws Exception {
         System.out.println("\n--- GESTIÓ D'EQUIPS ---");
         System.out.println("1. Crear equip");
         System.out.println("2. Llistar equips");
@@ -35,16 +35,16 @@ public class GestionarEquips {
         }
     }
 
-    private void crearEquip() throws IOException {
+    private void crearEquip() throws Exception {
         Equip equip = new Equip();
         System.out.print("Nom de l'equip: ");
         equip.setNom(br.readLine());
-        equipDAO.saveEquip(equip);
+        equipDAO.save(equip);
         System.out.println("Equip creat amb èxit!");
     }
 
-    private void llistarEquips() {
-        List<Equip> equips = equipDAO.getAllEquips();
+    private void llistarEquips() throws Exception {
+        List<Equip> equips = equipDAO.getAll();
 
         if(equips.isEmpty()) {
             System.out.println("\nNo hi ha equips registrats");
@@ -67,16 +67,16 @@ public class GestionarEquips {
         }
     }
 
-    private void afegirEmpleatAEquip() throws IOException {
+    private void afegirEmpleatAEquip() throws Exception {
         System.out.print("ID de l'empleat: ");
-        Empleat empleat = empleatDAO.getEmpleatById(Long.parseLong(br.readLine()));
+        Empleat empleat = empleatDAO.get(Integer.parseInt(br.readLine()));
 
         System.out.print("ID de l'equip: ");
-        Equip equip = equipDAO.getEquipById(Long.parseLong(br.readLine()));
+        Equip equip = equipDAO.get(Integer.parseInt(br.readLine()));
 
         if(empleat != null && equip != null) {
             equip.getEmpleats().add(empleat);
-            equipDAO.updateEquip(equip);
+            equipDAO.update(equip);
             System.out.println("Empleat afegit correctament!");
         }
     }

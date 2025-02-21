@@ -20,7 +20,7 @@ public class GestionarTasques {
         this.br = br;
     }
 
-    public void mostrarMenu() throws IOException {
+    public void mostrarMenu() throws Exception {
         System.out.println("\n--- GESTIÓ DE TASQUES ---");
         System.out.println("1. Crear tasca");
         System.out.println("2. Llistar tasques");
@@ -40,7 +40,7 @@ public class GestionarTasques {
         }
     }
 
-    private void crearTasca() throws IOException {
+    private void crearTasca() throws Exception {
         Tasca tasca = new Tasca();
 
         System.out.print("Nom de la tasca: ");
@@ -57,20 +57,20 @@ public class GestionarTasques {
 
         // Obtenir l'ID de l'empleat i assignar-lo a la tasca
         System.out.print("ID del empleat: ");
-        Long empleatId = Long.parseLong(br.readLine());
-        Empleat empleat = empleatDAO.getEmpleatById(empleatId);
+        int id = Integer.parseInt(br.readLine());
+        Empleat empleat = empleatDAO.get(id);
 
         if (empleat != null) {
             tasca.setEmpleat(empleat); // Assignar l'objecte Empleat a la tasca
-            tascaDAO.saveTasca(tasca);
+            tascaDAO.save(tasca);
             System.out.println("Tasca creada amb èxit!");
         } else {
-            System.out.println("Error: No s'ha trobat cap empleat amb ID " + empleatId);
+            System.out.println("Error: No s'ha trobat cap empleat amb ID " + id);
         }
     }
 
-    private void llistarTasques() {
-        List<Tasca> tasques = tascaDAO.getAllTasques();
+    private void llistarTasques() throws Exception {
+        List<Tasca> tasques = tascaDAO.getAll();
         if (tasques != null && !tasques.isEmpty()) {
             tasques.forEach(t -> System.out.println(
                     "ID: " + t.getId() +
@@ -83,11 +83,11 @@ public class GestionarTasques {
         }
     }
 
-    private void buscarPerId() throws IOException {
+    private void buscarPerId() throws Exception {
         System.out.print("Introdueix l'ID de la tasca: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Tasca tasca = tascaDAO.getTascaById(id);
+        Tasca tasca = tascaDAO.get(id);
 
         if (tasca != null) {
             System.out.println("\n--- DADES DE LA TASCA ---");
@@ -101,11 +101,11 @@ public class GestionarTasques {
         }
     }
 
-    private void actualitzarTasca() throws IOException {
+    private void actualitzarTasca() throws Exception {
         System.out.print("Introdueix l'ID de la tasca a actualitzar: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Tasca tasca = tascaDAO.getTascaById(id);
+        Tasca tasca = tascaDAO.get(id);
 
         if (tasca == null) {
             System.out.println("Tasca no trobada!");
@@ -130,22 +130,22 @@ public class GestionarTasques {
         String novaDataLim = br.readLine();
         if (!novaDataLim.isEmpty()) tasca.setDataLim(java.sql.Date.valueOf(novaDataLim));
 
-        tascaDAO.updateTasca(tasca);
+        tascaDAO.update(tasca);
         System.out.println("Tasca actualitzada amb èxit!");
     }
 
-    private void eliminarTasca() throws IOException {
+    private void eliminarTasca() throws Exception {
         System.out.print("Introdueix l'ID de la tasca a eliminar: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Tasca tasca = tascaDAO.getTascaById(id);
+        Tasca tasca = tascaDAO.get(id);
 
         if (tasca != null) {
             System.out.println("Segur que vols eliminar aquesta tasca? (s/n)");
             String confirmacio = br.readLine();
 
             if (confirmacio.equalsIgnoreCase("s")) {
-                tascaDAO.deleteTasca(id);
+                tascaDAO.delete(tasca);
                 System.out.println("Tasca eliminada correctament!");
             } else {
                 System.out.println("Operació cancel·lada.");

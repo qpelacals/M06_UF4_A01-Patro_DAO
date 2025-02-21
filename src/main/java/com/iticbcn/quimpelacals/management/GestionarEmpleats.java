@@ -17,7 +17,7 @@ public class GestionarEmpleats {
         this.br = br;
     }
 
-    public void mostrarMenu() throws IOException {
+    public void mostrarMenu() throws Exception {
         System.out.println("\n--- GESTIÓ D'EMPLEATS ---");
         System.out.println("1. Crear empleat");
         System.out.println("2. Llistar empleats");
@@ -39,7 +39,7 @@ public class GestionarEmpleats {
         }
     }
 
-    private void crearEmpleat() throws IOException {
+    private void crearEmpleat() throws Exception {
         Empleat empleat = new Empleat();
         System.out.print("DNI: ");
         empleat.setDni(br.readLine());
@@ -59,20 +59,20 @@ public class GestionarEmpleats {
         System.out.print("Departament (SALES/MARKETING): ");
         empleat.setDepartament(Departament.valueOf(br.readLine().toUpperCase()));
 
-        empleatDAO.saveEmpleat(empleat);
+        empleatDAO.save(empleat);
         System.out.println("Empleat creat amb èxit!");
     }
 
-    private void llistarEmpleats() {
-        List<Empleat> empleats = empleatDAO.getAllEmpleats();
+    private void llistarEmpleats() throws Exception {
+        List<Empleat> empleats = empleatDAO.getAll();
         empleats.forEach(e -> System.out.println(e.toString()));
     }
 
-    private void buscarPerId() throws IOException {
+    private void buscarPerId() throws Exception {
         System.out.print("Introdueix l'ID de l'empleat: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Empleat empleat = empleatDAO.getEmpleatById(id);
+        Empleat empleat = empleatDAO.get(id);
 
         if(empleat != null) {
             System.out.println("\n--- DADES DE L'EMPLEAT ---");
@@ -82,11 +82,11 @@ public class GestionarEmpleats {
         }
     }
 
-    private void actualitzarEmpleat() throws IOException {
+    private void actualitzarEmpleat() throws Exception {
         System.out.print("Introdueix l'ID de l'empleat a actualitzar: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Empleat empleat = empleatDAO.getEmpleatById(id);
+        Empleat empleat = empleatDAO.get(id);
 
         if(empleat == null) {
             System.out.println("Empleat no trobat!");
@@ -125,22 +125,22 @@ public class GestionarEmpleats {
             }
         }
 
-        empleatDAO.updateEmpleat(empleat);
+        empleatDAO.update(empleat);
         System.out.println("Empleat actualitzat amb èxit!");
     }
 
-    private void eliminarEmpleat() throws IOException {
+    private void eliminarEmpleat() throws Exception {
         System.out.print("Introdueix l'ID de l'empleat a eliminar: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Empleat empleat = empleatDAO.getEmpleatById(id);
+        Empleat empleat = empleatDAO.get(id);
 
         if(empleat != null) {
             System.out.println("Segur que vols eliminar a " + empleat.getNom() + " " + empleat.getCognoms() + "? (s/n)");
             String confirmacio = br.readLine();
 
             if(confirmacio.equalsIgnoreCase("s")) {
-                empleatDAO.deleteEmpleat(id);
+                empleatDAO.delete(empleat);
                 System.out.println("Empleat eliminat correctament!");
             } else {
                 System.out.println("Operació cancel·lada");

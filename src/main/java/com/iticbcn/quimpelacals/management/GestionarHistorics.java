@@ -1,6 +1,7 @@
 package com.iticbcn.quimpelacals.management;
 
 import com.iticbcn.quimpelacals.dao.HistoricDAO;
+import com.iticbcn.quimpelacals.models.Empleat;
 import com.iticbcn.quimpelacals.models.Historic;
 import com.iticbcn.quimpelacals.models.Tasca;
 
@@ -17,7 +18,7 @@ public class GestionarHistorics {
         this.br = br;
     }
 
-    public void mostrarMenu() throws IOException {
+    public void mostrarMenu() throws Exception {
         System.out.println("\n--- GESTIÓ D'HISTÒRICS ---");
         System.out.println("1. Crear registre històric");
         System.out.println("2. Llistar registres històrics");
@@ -37,7 +38,7 @@ public class GestionarHistorics {
         }
     }
 
-    private void crearHistoric() throws IOException {
+    private void crearHistoric() throws Exception {
         Historic historic = new Historic();
 
         System.out.print("Introdueix la data d'inici (YYYY-MM-DD): ");
@@ -58,12 +59,12 @@ public class GestionarHistorics {
         tasca.setId(tascaId);
         historic.setTasca(tasca);
 
-        historicDAO.saveHistoric(historic);
+        historicDAO.save(historic);
         System.out.println("Registre històric creat amb èxit!");
     }
 
-    private void llistarHistorics() {
-        List<Historic> historics = historicDAO.getAllHistorics();
+    private void llistarHistorics() throws Exception {
+        List<Historic> historics = historicDAO.getAll();
         if (historics != null && !historics.isEmpty()) {
             historics.forEach(h -> System.out.println(
                     "ID: " + h.getId() +
@@ -76,11 +77,11 @@ public class GestionarHistorics {
         }
     }
 
-    private void buscarPerId() throws IOException {
+    private void buscarPerId() throws Exception {
         System.out.print("Introdueix l'ID del registre històric: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Historic historic = historicDAO.getHistoricById(id);
+        Historic historic = historicDAO.get(id);
 
         if (historic != null) {
             System.out.println("\n--- DADES DEL REGISTRE HISTÒRIC ---");
@@ -94,11 +95,11 @@ public class GestionarHistorics {
         }
     }
 
-    private void actualitzarHistoric() throws IOException {
+    private void actualitzarHistoric() throws Exception {
         System.out.print("Introdueix l'ID del registre històric a actualitzar: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Historic historic = historicDAO.getHistoricById(id);
+        Historic historic = historicDAO.get(id);
 
         if (historic == null) {
             System.out.println("Registre històric no trobat!");
@@ -125,22 +126,22 @@ public class GestionarHistorics {
             historic.setComentaris(nousComentaris);
         }
 
-        historicDAO.updateHistoric(historic);
+        historicDAO.update(historic);
         System.out.println("Registre històric actualitzat amb èxit!");
     }
 
-    private void eliminarHistoric() throws IOException {
+    private void eliminarHistoric() throws Exception {
         System.out.print("Introdueix l'ID del registre històric a eliminar: ");
-        Long id = Long.parseLong(br.readLine());
+        int id = Integer.parseInt(br.readLine());
 
-        Historic historic = historicDAO.getHistoricById(id);
+        Historic historic = historicDAO.get(id);
 
         if (historic != null) {
             System.out.println("Segur que vols eliminar aquest registre històric? (s/n)");
             String confirmacio = br.readLine();
 
             if (confirmacio.equalsIgnoreCase("s")) {
-                historicDAO.deleteHistoric(id);
+                historicDAO.delete(historic);
                 System.out.println("Registre històric eliminat correctament!");
             } else {
                 System.out.println("Operació cancel·lada.");

@@ -1,197 +1,27 @@
 # Documentació Tècnica: Gestor d'Empresa amb Hibernate
 
-## Configuració de Hibernate
+## 1. De quina lògica d’aplicació s’encarrega el Patró DAO?
 
-### Fitxer de configuració (`hibernate.cfg.xml`)
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-"http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
-<hibernate-configuration>
-    <session-factory>
-        <!-- Configuració de la connexió a MariaDB -->
-        <property name="connection.driver_class">org.mariadb.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mariadb://localhost:3306/empresa</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">system</property>
-        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
-        
-        <!-- Mapejament d'entitats -->
-        <mapping class="com.iticbcn.quimpelacals.models.Empleat"/>
-        <mapping resource="Equip.hbm.xml"/>
-        <mapping class="com.iticbcn.quimpelacals.models.Tasca"/>
-    </session-factory>
-</hibernate-configuration>
-```
+De la lògica de negoci
 
-## Mapejament d'Entitats
+## 2. Per què considereu què és útil el patró DAO i en què us ha servit?
 
-### 1. Ús d'Anotacions JPA i XML
+El patró DAO (Data Access Object) és útil perquè separa la lògica d'accés a les dades de la lògica de negoci de l'aplicació. En el context de l'activitat A02 de la UF2, on es va utilitzar JDBC per connectar-se a una base de dades, el patró DAO va ser especialment útil per encapsular les operacions de la base de dades (com ara inserir, actualitzar, esborrar i consultar dades) en mètodes específics. Això va permetre mantenir el codi més organitzat i va facilitar la gestió de les transaccions i les excepcions.
 
-Entitats amb anotacions (Empleat, Tasca):
+## 3. Heu hagut de fer cap ajust al vostre codi d’aplicació (Main, Controladors, Vistes, altres classes que no siguin DAO, etc.) ? Si és així, detalleu de forma breu quins canvis heu fet i per què?
 
-```java
-@Entity
-@Table(name = "Empleat")
-public class Empleat {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long empleat_id;
+No he hagut de fer cap ajust a cap altre classe.
 
-    @ManyToMany
-    @JoinTable(
-        name = "Empleat_Equip",
-        joinColumns = @JoinColumn(name = "empleat_id"),
-        inverseJoinColumns = @JoinColumn(name = "equip_id")
-    )
-    private List<Equip> equips;
-}
-```
+## 4. Completeu el diagrama de classes de l’activitat A01 de la UF2 incorporant les interfícies, la classe abstracta i els DAOs.
 
-Entitats amb XML (Equip.hbm.xml):
+## 5. Per últim valoreu el paper que hi juga la classe abstracta. És en tots els casos necessària? En el cas de l’activitat A02 de la UF2, on vau emprar JDBC, penseu que seria d’utilitat?
 
-```xml
-<hibernate-mapping>
-    <class name="com.iticbcn.quimpelacals.models.Equip" table="Equip">
-        <id name="id" column="id" type="long">
-            <generator class="identity"/>
-        </id>
-        <property name="nom" column="nom" not-null="true"/>
-        <bag name="empleats" table="Empleat_Equip" inverse="true">
-            <key column="equip_id"/>
-            <many-to-many class="com.iticbcn.quimpelacals.models.Empleat" column="empleat_id"/>
-        </bag>
-    </class>
-</hibernate-mapping>
-```
+GenDAOImpl proporciona una implementació genèrica dels mètodes bàsics d'accés a les dades (com ara save, update, delete, get, i getAll), que poden ser heretats per classes més específiques com EquipDAO. 
 
-## Gestió de Relacions
+### Necessitat de la classe abstracta:
 
-### Relació Many-to-Many (Empleat ↔ Equip)
-Taula intermèdia: Empleat_Equip amb dues claus foranes.
+No sempre és necessària una classe abstracta en la implementació del patró DAO. En alguns casos, si les operacions de la base de dades són molt simples o si només es necessita un DAO per a una única entitat, es podria implementar directament sense una classe abstracta. No obstant això, en projectes més grans o quan es treballa amb múltiples entitats, la classe abstracta és molt útil per evitar la duplicació de codi i mantenir una estructura més organitzada.
 
-Estratègia:
+### Utilitat en l'activitat A02 de la UF2:
 
-- Mapejament bidireccional:
-
-  - L'Empleat utilitza anotacions per definir la relació.
-
-  - L'Equip utilitza XML per evitar conflictes amb la configuració de Hibernate.
-
-```sql
--- Estructura de la taula Empleat_Equip
-CREATE TABLE Empleat_Equip (
-    empleat_id BIGINT,
-    equip_id BIGINT,
-    PRIMARY KEY (empleat_id, equip_id)
-);
-```
-
-### Relació One-to-Many Bidireccional (Empleat ↔ Tasca)
-
-Entitat `Tasca`:
-
-```java
-@ManyToOne
-@JoinColumn(name = "empleat_id", nullable = false)
-private Empleat empleat;
-```
-
-Entitat Empleat:
-```java
-@OneToMany(mappedBy = "empleat", cascade = CascadeType.ALL)
-private List<Tasca> tasques;
-```
-
-## Gestió de Sessió i Transaccions
-
-### Plantilla per a Operacions CRUD
-
-```java
-public class TascaDAO {
-    public void saveTasca(Tasca tasca) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            session.persist(tasca);
-            session.getTransaction().commit();
-        }
-    }
-}
-```
-
-### Tractament d'Entitats Desvinculades (Detached)
-Error comú:
-`detached entity passed to persist` en intentar guardar una entitat recuperada en una sessió tancada.
-
-Solució:
-```java
-// Opció 1: Utilitzar merge() en lloc de persist()
-session.merge(tasca);
-
-// Opció 2: Recuperar l'entitat dins la sessió actual
-Empleat empleat = session.find(Empleat.class, empleatId);
-tasca.setEmpleat(empleat);
-```
-
-## Configuració Avançada
-
-### Polítiques de Cascada
-
-Exemple per a eliminació en cascada:
-
-```java
-@OneToMany(mappedBy = "empleat", cascade = CascadeType.ALL, orphanRemoval = true)
-private List<Tasca> tasques;
-```
-
-### Logging de Consultes SQL
-
-```sql
-<property name="show_sql">true</property>
-<property name="format_sql">true</property>
-```
-
-## Exemple de Consulta HQL
-
-### Consulta per a Estadístiques de Tasques
-
-```java
-public Map<String, Long> countTasksPerEmployee() {
-    String hql = "SELECT CONCAT(e.nom, ' ', e.cognoms), COUNT(t.id) " +
-                 "FROM Empleat e LEFT JOIN e.tasques t " +
-                 "GROUP BY e.nom, e.cognoms";
-    
-    try (Session session = sessionFactory.openSession()) {
-        Query<Object[]> query = session.createQuery(hql, Object[].class);
-        List<Object[]> results = query.list();
-        
-        Map<String, Long> resultMap = new HashMap<>();
-        for (Object[] result : results) {
-            resultMap.put((String) result[0], (Long) result[1]);
-        }
-        return resultMap;
-    }
-}
-```
-
-## Eines Auxiliars
-
-Classe HibernateUtil:
-
-```java
-public class HibernateUtil {
-    private static final SessionFactory sessionFactory = buildSessionFactory();
-
-    private static SessionFactory buildSessionFactory() {
-        try {
-            return new Configuration().configure().buildSessionFactory();
-        } catch (Throwable ex) {
-            throw new ExceptionInInitializerError(ex);
-        }
-    }
-
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-}
-```
+En el cas de l'activitat A02, on es va utilitzar JDBC per connectar-se a una base de dades, una classe abstracta com GenDAOImpl seria d'utilitat per encapsular les operacions comunes de la base de dades. Això permetria als DAOs específics (com EquipDAO) centrar-se només en la lògica específica de cada entitat, mentre que la classe abstracta gestionaria les operacions genèriques com la connexió a la base de dades, la gestió de transaccions i el control d'excepcions.
