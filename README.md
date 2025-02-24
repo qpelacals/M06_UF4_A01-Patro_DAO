@@ -14,6 +14,8 @@ No he hagut de fer cap ajust a cap altre classe.
 
 ## 4. Completeu el diagrama de classes de l’activitat A01 de la UF2 incorporant les interfícies, la classe abstracta i els DAOs.
 
+![Diagrama de classes del DAO](images/DAO.drawio.png)
+
 ## 5. Per últim valoreu el paper que hi juga la classe abstracta. És en tots els casos necessària? En el cas de l’activitat A02 de la UF2, on vau emprar JDBC, penseu que seria d’utilitat?
 
 GenDAOImpl proporciona una implementació genèrica dels mètodes bàsics d'accés a les dades (com ara save, update, delete, get, i getAll), que poden ser heretats per classes més específiques com EquipDAO. 
